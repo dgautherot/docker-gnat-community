@@ -1,0 +1,44 @@
+FROM debian:stable
+
+LABEL maintainer="Denis Gautherot <denis.gautherot@gmail.com>"
+
+RUN export DEBIAN_FRONTEND=noninteractive
+
+ENV SOURCES_DIR /home/dev/sources
+ENV TMP_DIR /home/dev/tmp
+ENV APP_DIR /opt
+
+ENV GNAT_GPL_NATIVE_FILENAME gnat-community-2019-20190517-x86_64-linux-bin
+ENV GNAT_GPL_NATIVE_URL https://community.download.adacore.com/v1/0cd3e2a668332613b522d9612ffa27ef3eb0815b?filename=gnat-community-2019-20190517-x86_64-linux-bin
+ENV GNAT_GPL_NATIVE_INSTALLER_SCRIPT gnat-install-package.zip
+ENV GNAT_GPL_NATIVE_INSTALLER_SCRIPT_URL https://github.com/AdaCore/gnat_community_install_script/archive/master.zip
+
+ENV QT_X11_NO_MITSHM 1
+
+RUN mkdir -p ${SOURCES_DIR} \
+ && mkdir -p ${TMP_DIR} \
+ && mkdir -p ${APP_DIR}
+
+WORKDIR /home/dev
+
+RUN dpkg --add-architecture i386 \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    wget unzip bash-completion \
+    make libc6-dev libc6:i386 libstdc++6:i386 \
+    libfontconfig libxext-dev libxrender-dev libxtst-dev libxinerama1 libsm6 fonts-dejavu-core libdbus-1-3 libx11-xcb1 libncurses5 \
+ && wget --output-document=${SOURCES_DIR}/${GNAT_GPL_NATIVE_FILENAME} ${GNAT_GPL_NATIVE_URL} \
+ && wget --output-document=${SOURCES_DIR}/${GNAT_GPL_NATIVE_INSTALLER_SCRIPT} ${GNAT_GPL_NATIVE_INSTALLER_SCRIPT_URL} \
+ && apt-get remove -y wget \
+ && rm -rf /var/lib/apt/lists/* \
+ && cd ${TMP_DIR} \
+ && unzip ${SOURCES_DIR}/${GNAT_GPL_NATIVE_INSTALLER_SCRIPT} \
+ && cd gnat_community_install_script-master \
+ && chmod +x ./install_package.sh \ 
+ && ./install_package.sh ${SOURCES_DIR}/${GNAT_GPL_NATIVE_FILENAME} /opt/gnat/gnat_gpl_native \
+ && cd /home/dev \
+ && rm -rf ${SOURCES_DIR} \
+ && rm -rf ${TMP_DIR}
+
+ENV PATH ${PATH}:/opt/gnat/gnat_community_x86_64_linux/bin
