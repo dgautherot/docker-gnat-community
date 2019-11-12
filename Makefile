@@ -4,7 +4,7 @@
 DOCKER := docker
 DOCKER_HUB_ID := dgautherot
 
-TAG_NAME_FOR_X86_64_LINUX := x86_64-linux-2019.1
+TAG_NAME_FOR_X86_64_LINUX := x86_64-linux.2019.1
 DOCKER_FILE_FOR_X86_64_LINUX := Dockerfile.x86_64-linux
 
 GNAT_COMMUNITY := gnat-community
