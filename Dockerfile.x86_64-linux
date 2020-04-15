@@ -14,7 +14,7 @@ ARG USER_GID=$USER_UID
 
 # GNAT Communicaty release information
 ENV GNAT_COMMUNITY_X86_64_LINUX_FILENAME gnat-community-2019-20190517-x86_64-linux-bin
-ENV GNAT_COMMUNITY_X86_64_LINUX_URL http://mirrors.cdn.adacore.com/art/5cdffc5409dcd015aaf82626
+ENV GNAT_COMMUNITY_X86_64_LINUX_URL https://community.download.adacore.com/v1/0cd3e2a668332613b522d9612ffa27ef3eb0815b?filename=gnat-community-2019-20190517-x86_64-linux-bin
 ENV GNAT_COMMUNITY_X86_64_LINUX_INSTALLER_SCRIPT gnat-install-package.zip
 ENV GNAT_COMMUNITY_X86_64_LINUX_INSTALLER_SCRIPT_URL https://github.com/AdaCore/gnat_community_install_script/archive/master.zip
 ENV GNAT_COMMUNITY_X86_64_LINUX_INSTALL_DIR /opt/gnat/gnat_community_x86_64_linux
@@ -38,10 +38,11 @@ RUN apt-get update \
     # Verify git, process tools, lsb-release (useful for CLI installs) installed
     && apt-get -y install git procps lsb-release \
     #
-    # Install Gnat Community dependencies
+    # Install Gnat Community dependencies and complementary tools
     && apt-get -y install wget unzip bash-completion \
     && apt-get -y install make libc6-dev libc6 libstdc++6 \
     && apt-get -y install libfontconfig libxext-dev libxrender-dev libxtst-dev libxinerama1 libsm6 fonts-dejavu-core libdbus-1-3 libx11-xcb1 libncurses5 \
+    && apt-get -y install lcov \
     #
     # Install Gnat Community
     && wget --output-document=${SOURCES_DIR}/${GNAT_COMMUNITY_X86_64_LINUX_FILENAME} ${GNAT_COMMUNITY_X86_64_LINUX_URL} \
