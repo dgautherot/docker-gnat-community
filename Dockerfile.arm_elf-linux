@@ -12,11 +12,11 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # GNAT Communicaty release information
-ENV GNAT_COMMUNITY_FILENAME gnat-2020-20200818-x86_64-linux-bin
-ENV GNAT_COMMUNITY_URL https://community.download.adacore.com/v1/a639696a9fd3bdf0be21376cc2dc3129323cbe42?filename=gnat-2020-20200818-x86_64-linux-bin
+ENV GNAT_COMMUNITY_FILENAME gnat-2020-20200818-arm-elf-linux64-bin
+ENV GNAT_COMMUNITY_URL https://community.download.adacore.com/v1/7caf13b986227c7a00c64e544e85eee08945b892?filename=gnat-2020-20200818-arm-elf-linux64-bin
 ENV GNAT_COMMUNITY_INSTALLER_SCRIPT gnat-install-package.zip
 ENV GNAT_COMMUNITY_INSTALLER_SCRIPT_URL https://github.com/AdaCore/gnat_community_install_script/archive/master.zip
-ENV GNAT_COMMUNITY_INSTALL_DIR /opt/gnat/gnat_community_x86_64_linux
+ENV GNAT_COMMUNITY_INSTALL_DIR /opt/gnat/gnat_community_arm-elf_linux
 
 # Create required directories
 ENV SOURCES_DIR=/home/${USERNAME}/sources
@@ -30,15 +30,17 @@ RUN mkdir -p ${SOURCES_DIR} \
 WORKDIR /home/${USERNAME}
 
 # Configure apt and install packages
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends apt-utils dialog 2>&1 \
     # 
-    # Verify process tools, lsb-release (useful for CLI installs) and ca-certificates installed
-    && apt-get install -y --no-install-recommends procps lsb-release ca-certificates \
+    # Verify process tools, lsb-release (useful for CLI installs) installed
+    && apt-get -y install --no-install-recommends procps lsb-release ca-certificates \
     #
     # Install Gnat Community dependencies and complementary tools
     && apt-get install -y --no-install-recommends wget unzip bash-completion \
+    && apt-get install -y --no-install-recommends libc6:i386 libstdc++6:i386 \
     && apt-get install -y --no-install-recommends make libc6-dev libc6 libstdc++6 \
     && apt-get install -y --no-install-recommends libfontconfig libxext-dev libxrender-dev libxtst-dev libxinerama1 libsm6 fonts-dejavu-core libdbus-1-3 libx11-xcb1 libncurses5 \
     && apt-get install -y --no-install-recommends lcov \

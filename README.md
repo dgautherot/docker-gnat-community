@@ -17,6 +17,6 @@ Just type the following command: ``` make push-to-github ```
 
 Here is an example of a command (for the linux platform) to run the GPS IDE frrom the docker image:
 ```
-docker run --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -u vscode -v /tmp/.X11-unix:/tmp/.X11-unix -v /etc/localtime:/etc/localtime -e DISPLAY=:0 -v $PWD:/home/dev -w /home/dev gnat-community:x86_64-linux.2019.1 sh -c "gps"
+docker run --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix -v /etc/localtime:/etc/localtime -v $PWD:/home/dev -it gnat-community:x86_64-linux.2020.1 bash -c "gps"
 ```
 *Note: on linux platform, before executing the above command, user shall type the command ```xhost+```*
