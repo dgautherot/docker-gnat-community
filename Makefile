@@ -6,11 +6,13 @@ DOCKER_HUB_ID := dgautherot
 
 GNAT_COMMUNITY := gnat-community
 
-TAG_NAME_FOR_X86_64_LINUX := x86_64-linux.2020.1
-DOCKER_FILE_FOR_X86_64_LINUX := Dockerfile.x86_64-linux
+GNAT_RELEASE ?= 2020
 
-TAG_NAME_FOR_ARM_ELF_LINUX := arm_elf-linux.2020.1
-DOCKER_FILE_FOR_ARM_ELF_LINUX := Dockerfile.arm_elf-linux
+TAG_NAME_FOR_X86_64_LINUX := x86_64-linux.${GNAT_RELEASE}
+DOCKER_FILE_FOR_X86_64_LINUX := Dockerfile.${GNAT_RELEASE}.x86_64-linux
+
+TAG_NAME_FOR_ARM_ELF_LINUX := arm_elf-linux.${GNAT_RELEASE}
+DOCKER_FILE_FOR_ARM_ELF_LINUX := Dockerfile.${GNAT_RELEASE}.arm_elf-linux
 
 # --------------------------------------------------------------------------- #
 # x86_64-linux reachable targets
