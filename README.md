@@ -11,7 +11,7 @@ Before attempting to build the docker images, one should have installed the foll
 Just type the following command: ``` make images ```
 
 ## Publishing the docker image to docker hub
-Just type the following command: ``` make push-to-github ```
+Just type the following command: ``` make push-to-dockerhub ```
 
 ## Using the docker image
 
